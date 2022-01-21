@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:warrantytracker/homepage.dart';
 
 class FiltereditemsPage extends StatefulWidget {
   final String name;
@@ -14,21 +15,6 @@ class FiltereditemsPage extends StatefulWidget {
 
 class _FiltereditemsPageState extends State<FiltereditemsPage> {
   late Stream<QuerySnapshot> _usersStream;
-
-  int temp = 0;
-  MaterialColor getColors() {
-    if (temp == 0) {
-      temp++;
-      return Colors.red;
-    }
-    if (temp == 1) {
-      temp++;
-      return Colors.green;
-    }
-
-    temp = 0;
-    return Colors.blue;
-  }
 
   @override
   void initState() {

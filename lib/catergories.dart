@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:warrantytracker/filteredItems.dart';
+import 'package:warrantytracker/homepage.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({Key? key}) : super(key: key);
@@ -15,26 +16,11 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage> {
   TextEditingController categoryController = TextEditingController();
 
-  int temp = 0;
-  MaterialColor getColors() {
-    if (temp == 0) {
-      temp++;
-      return Colors.red;
-    }
-    if (temp == 1) {
-      temp++;
-      return Colors.green;
-    }
-
-    temp = 0;
-    return Colors.blue;
-  }
-
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('Database')
-        .doc(FirebaseAuth.instance.currentUser!.uid!)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("Categories")
         .orderBy("name")
         .snapshots();

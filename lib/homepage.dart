@@ -10,6 +10,21 @@ import 'package:warrantytracker/catergories.dart';
 import 'package:warrantytracker/profilePage.dart';
 import 'package:warrantytracker/searchPage.dart';
 
+int temp = 0;
+MaterialColor getColors() {
+  if (temp == 0) {
+    temp++;
+    return Colors.red;
+  }
+  if (temp == 1) {
+    temp++;
+    return Colors.green;
+  }
+
+  temp = 0;
+  return Colors.blue;
+}
+
 class TestPage extends StatefulWidget {
   const TestPage({Key? key}) : super(key: key);
 
@@ -110,21 +125,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int temp = 0;
-  MaterialColor getColors() {
-    if (temp == 0) {
-      temp++;
-      return Colors.red;
-    }
-    if (temp == 1) {
-      temp++;
-      return Colors.green;
-    }
-
-    temp = 0;
-    return Colors.blue;
-  }
-
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance

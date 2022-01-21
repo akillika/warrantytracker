@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:warrantytracker/addInvoice.dart';
+import 'package:warrantytracker/homepage.dart';
 
 class ChooseCategoryPage extends StatefulWidget {
   final String name;
@@ -30,7 +31,7 @@ class _ChooseCategoryPageState extends State<ChooseCategoryPage> {
   Widget build(BuildContext context1) {
     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('Database')
-        .doc(FirebaseAuth.instance.currentUser!.uid!)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("Categories")
         .snapshots();
 
@@ -151,7 +152,7 @@ class _ChooseCategoryPageState extends State<ChooseCategoryPage> {
                             height: MediaQuery.of(context).size.width / 2.5,
                             width: MediaQuery.of(context).size.width / 2.5,
                             decoration: BoxDecoration(
-                                color: Colors.red,
+                                color: getColors(),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5)),
                                 boxShadow: [

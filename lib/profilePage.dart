@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -74,6 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => SignInpage()),
                         (route) => false);
+                    exit(0);
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -86,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ]),
                     child: Center(
                       child: Text(
-                        "Logout",
+                        "Logout and Exit",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

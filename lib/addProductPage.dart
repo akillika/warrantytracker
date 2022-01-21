@@ -30,6 +30,14 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
   @override
+  void initState() {
+    nameController.clear();
+    months.clear();
+    notes.clear();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -98,14 +106,21 @@ class _AddProductPageState extends State<AddProductPage> {
               Center(
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChooseCategoryPage(
-                                    name: nameController.text,
-                                    datePurchased: selectedDate,
-                                    warrantyMonths: months.text,
-                                    notes: notes.text)));
+                        if (nameController.text != "" && months.text != "") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChooseCategoryPage(
+                                      name: nameController.text,
+                                      datePurchased: selectedDate,
+                                      warrantyMonths: months.text,
+                                      notes: notes.text)));
+                        } else {
+                          const snackBar = SnackBar(
+                            content: Text('Enter Name and Warranty in months'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       },
                       child: Text("Next")))
             ],
