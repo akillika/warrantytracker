@@ -1,42 +1,37 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, curly_braces_in_flow_control_structures
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, curly_braces_in_flow_control_structures, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:warrantytracker/filteredItems.dart';
+import 'package:warrantytracker/addInvoice.dart';
 
-class CategoriesPage extends StatefulWidget {
-  const CategoriesPage({Key? key}) : super(key: key);
+class ChooseCategoryPage extends StatefulWidget {
+  final String name;
+  final DateTime datePurchased;
+  final String warrantyMonths;
+  final String notes;
+
+  const ChooseCategoryPage(
+      {Key? key,
+      required this.name,
+      required this.datePurchased,
+      required this.warrantyMonths,
+      required this.notes})
+      : super(key: key);
 
   @override
-  _CategoriesPageState createState() => _CategoriesPageState();
+  _ChooseCategoryPageState createState() => _ChooseCategoryPageState();
 }
 
-class _CategoriesPageState extends State<CategoriesPage> {
+class _ChooseCategoryPageState extends State<ChooseCategoryPage> {
   TextEditingController categoryController = TextEditingController();
 
-  int temp = 0;
-  MaterialColor getColors() {
-    if (temp == 0) {
-      temp++;
-      return Colors.red;
-    }
-    if (temp == 1) {
-      temp++;
-      return Colors.green;
-    }
-
-    temp = 0;
-    return Colors.blue;
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context1) {
     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('Database')
         .doc(FirebaseAuth.instance.currentUser!.uid!)
         .collection("Categories")
-        .orderBy("name")
         .snapshots();
 
     CollectionReference category = FirebaseFirestore.instance
@@ -59,13 +54,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Categories",
+                    "Select Category",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   ElevatedButton(
                       onPressed: () async {
                         return showDialog<void>(
-                          context: context,
+                          context: context1,
                           barrierDismissible: false, // user must tap button!
                           builder: (BuildContext context) {
                             return AlertDialog(
@@ -105,7 +100,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           },
                         );
                       },
-                      child: Text("Add Category"))
+                      child: Text("New Category"))
                 ],
               ),
               SizedBox(
@@ -123,9 +118,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
-                  }
-                  if (category.snapshots().length.toString() == 0) {
-                    return Text('Add a category to get started');
                   }
 
                   return GridView(
@@ -147,14 +139,19 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        FiltereditemsPage(name: data["name"])));
+                                    builder: (context) => AddInvoice(
+                                          name: widget.name,
+                                          datePurchased: widget.datePurchased,
+                                          warrantyMonths: widget.warrantyMonths,
+                                          notes: widget.notes,
+                                          category: data["name"],
+                                        )));
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.width / 2.5,
                             width: MediaQuery.of(context).size.width / 2.5,
                             decoration: BoxDecoration(
-                                color: getColors(),
+                                color: Colors.red,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5)),
                                 boxShadow: [

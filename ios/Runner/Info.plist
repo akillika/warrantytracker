@@ -14,6 +14,19 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>warrantytracker</string>
+	<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<!-- TODO Replace this value: -->
+					<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+					<string>com.googleusercontent.apps.331357005000-v262g4a635mal6rfr2ajfecg3ao6qil5</string>
+				</array>
+			</dict>
+		</array>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
