@@ -1,135 +1,20 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, curly_braces_in_flow_control_structures, avoid_function_literals_in_foreach_calls
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:warrantytracker/addProductPage.dart';
-import 'package:warrantytracker/catergories.dart';
-import 'package:warrantytracker/notification.dart';
+import 'package:warrantytracker/homepage.dart';
 import 'package:warrantytracker/productDeatilspage.dart';
 import 'package:warrantytracker/profilePage.dart';
-import 'package:warrantytracker/searchPage.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-int temp = 0;
-MaterialColor getColors() {
-  if (temp == 0) {
-    temp++;
-    return Colors.red;
-  }
-  if (temp == 1) {
-    temp++;
-    return Colors.green;
-  }
-
-  temp = 0;
-  return Colors.blue;
-}
-
-class TestPage extends StatefulWidget {
-  const TestPage({Key? key}) : super(key: key);
+class ExpiredproductsPage extends StatefulWidget {
+  const ExpiredproductsPage({Key? key}) : super(key: key);
 
   @override
-  _TestPageState createState() => _TestPageState();
+  _ExpiredproductsPageState createState() => _ExpiredproductsPageState();
 }
 
-class _TestPageState extends State<TestPage> {
-  @override
-  Widget build(BuildContext context) {
-    PersistentTabController _controller;
-
-    _controller = PersistentTabController(initialIndex: 0);
-    List<Widget> _buildScreens() {
-      return [
-        HomePage(),
-        CategoriesPage(),
-        AddProductPage(),
-        SearchPage(),
-        ProfilePage()
-      ];
-    }
-
-    List<PersistentBottomNavBarItem> _navBarsItems() {
-      return [
-        PersistentBottomNavBarItem(
-          icon: Icon(CupertinoIcons.home),
-          title: ("All Items"),
-          activeColorPrimary: CupertinoColors.activeBlue,
-          inactiveColorPrimary: CupertinoColors.systemGrey,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(CupertinoIcons.circle_grid_3x3),
-          title: ("Categories"),
-          activeColorPrimary: CupertinoColors.activeBlue,
-          inactiveColorPrimary: CupertinoColors.systemGrey,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(
-            CupertinoIcons.add,
-            color: Colors.white,
-          ),
-          title: ("Add"),
-          activeColorPrimary: CupertinoColors.activeBlue,
-          inactiveColorPrimary: CupertinoColors.systemGrey,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(CupertinoIcons.search),
-          title: ("Search"),
-          activeColorPrimary: CupertinoColors.activeBlue,
-          inactiveColorPrimary: CupertinoColors.systemGrey,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(CupertinoIcons.profile_circled),
-          title: ("Profile"),
-          activeColorPrimary: CupertinoColors.activeBlue,
-          inactiveColorPrimary: CupertinoColors.systemGrey,
-        ),
-      ];
-    }
-
-    return PersistentTabView(
-      context,
-      controller: _controller,
-      screens: _buildScreens(),
-      items: _navBarsItems(),
-      confineInSafeArea: true,
-      backgroundColor: Colors.white,
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: true,
-      stateManagement: true,
-      hideNavigationBarWhenKeyboardShows: true,
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.white,
-      ),
-      popAllScreensOnTapOfSelectedTab: true,
-      popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: ItemAnimationProperties(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
-      ),
-      screenTransitionAnimation: ScreenTransitionAnimation(
-        animateTabTransition: true,
-        curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
-      ),
-      navBarStyle: NavBarStyle.style15,
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _ExpiredproductsPageState extends State<ExpiredproductsPage> {
   String greetings = "";
   String getgreetings() {
     var now;
@@ -147,25 +32,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    tz.initializeTimeZones();
     greetings = getgreetings();
-    NotificationApi.init(initScheduled: true);
-    listenNotifications();
     // TODO: implement initState
     super.initState();
-  }
-
-  void listenNotifications() {
-    NotificationApi.onNotifications.stream.listen(onClickednotification);
-  }
-
-  void onClickednotification(String? payload) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ProductDetailspage(
-                  productID: payload!,
-                )));
   }
 
   @override
@@ -179,6 +48,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -188,29 +58,9 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "$greetings ${FirebaseAuth.instance.currentUser!.displayName}",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()));
-                    },
-                    child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 15,
-                        child: ClipOval(
-                          child: Image.network(
-                              FirebaseAuth.instance.currentUser!.photoURL!),
-                        )),
-                  ),
-                ],
+              Text(
+                "Expired Products",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 30,
@@ -251,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                             },
                             child: data["dateExpires"]
                                         .toDate()
-                                        .compareTo(DateTime.now()) >=
+                                        .compareTo(DateTime.now()) <
                                     0
                                 ? Container(
                                     height: 100,
@@ -289,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                                                 height: 6,
                                               ),
                                               Text(
-                                                "Expires on ${DateTime.parse(data["dateExpires"].toDate().toString()).toString().substring(0, 10)}",
+                                                "Expired on ${DateTime.parse(data["dateExpires"].toDate().toString()).toString().substring(0, 10)}",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 12),
@@ -301,11 +151,11 @@ class _HomePageState extends State<HomePage> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                DateTime.parse(
+                                                DateTime.now()
+                                                    .difference(DateTime.parse(
                                                         data["dateExpires"]
                                                             .toDate()
-                                                            .toString())
-                                                    .difference(DateTime.now())
+                                                            .toString()))
                                                     .inDays
                                                     .toString(),
                                                 style: TextStyle(
@@ -314,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                                                     fontSize: 25),
                                               ),
                                               Text(
-                                                "days left",
+                                                "days ago",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
@@ -427,16 +277,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          NotificationApi.showScheduledNotification(
-              title: "Hello",
-              body: "Hello",
-              payload: "R0UmCt4aENS9Kuw5QaGe3yNWc1F3_1642836678696986",
-              scheduledDate: DateTime.now().add(Duration(seconds: 10)));
-        },
-        child: Icon(Icons.add),
       ),
     );
   }

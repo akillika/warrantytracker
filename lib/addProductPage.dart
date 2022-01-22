@@ -98,7 +98,7 @@ class _AddProductPageState extends State<AddProductPage> {
               ),
               TextField(
                 controller: notes,
-                decoration: InputDecoration(hintText: "Notes"),
+                decoration: InputDecoration(hintText: "Notes (optional)"),
               ),
               SizedBox(
                 height: 40,
