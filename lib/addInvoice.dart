@@ -237,10 +237,10 @@ class _AddInvoiceState extends State<AddInvoice> {
                   onPressed: () async {
                     BuildContext dialogContext;
                     showDialog<void>(
-                      context: context, // user must tap button!
+                      context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('Add Category'),
+                          title: const Text('Saving....'),
                           content: Center(child: CircularProgressIndicator()),
                         );
                       },

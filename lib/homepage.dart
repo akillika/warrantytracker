@@ -39,6 +39,32 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    int id = 0;
+    FirebaseFirestore.instance
+        .collection('Database')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Products")
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        DateTime temp = doc["dateExpires"].toDate();
+        if (DateTime.now().difference(temp).inDays == 0) {
+          id++;
+          print("Created");
+          NotificationApi.showScheduledNotification(
+              id: id,
+              title: doc["name"],
+              body: doc["notes"],
+              payload: doc["id"],
+              scheduledDate: DateTime.now().add(Duration(seconds: 5)));
+        }
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     PersistentTabController _controller;
 
@@ -430,11 +456,27 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          NotificationApi.showScheduledNotification(
-              title: "Hello",
-              body: "Hello",
-              payload: "R0UmCt4aENS9Kuw5QaGe3yNWc1F3_1642836678696986",
-              scheduledDate: DateTime.now().add(Duration(seconds: 10)));
+          int id = 0;
+          FirebaseFirestore.instance
+              .collection('Database')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection("Products")
+              .get()
+              .then((QuerySnapshot querySnapshot) {
+            querySnapshot.docs.forEach((doc) {
+              DateTime temp = doc["dateExpires"].toDate();
+              if (DateTime.now().difference(temp).inDays == 0) {
+                id++;
+                print("Created");
+                NotificationApi.showScheduledNotification(
+                    id: id,
+                    title: doc["name"],
+                    body: doc["notes"],
+                    payload: doc["id"],
+                    scheduledDate: DateTime.now().add(Duration(seconds: 5)));
+              }
+            });
+          });
         },
         child: Icon(Icons.add),
       ),

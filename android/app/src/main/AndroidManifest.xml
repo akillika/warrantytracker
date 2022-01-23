@@ -4,6 +4,7 @@
    <application
         android:label="warrantytracker"
         android:name="${applicationName}"
+        android:value="2"
         android:icon="@mipmap/ic_launcher">
        
         <activity
