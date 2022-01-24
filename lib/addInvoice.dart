@@ -235,7 +235,6 @@ class _AddInvoiceState extends State<AddInvoice> {
                 child: ElevatedButton(
                   child: Text("Save to my account"),
                   onPressed: () async {
-                    BuildContext dialogContext;
                     showDialog<void>(
                       context: context,
                       builder: (BuildContext context) {

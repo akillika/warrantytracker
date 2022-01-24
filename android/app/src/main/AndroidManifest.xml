@@ -2,7 +2,7 @@
     package="com.thedeveloperstudio.warrantytracker.warrantytracker">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
    <application
-        android:label="warrantytracker"
+        android:label="Smart Warranty"
         android:name="${applicationName}"
         android:value="2"
         android:icon="@mipmap/ic_launcher">

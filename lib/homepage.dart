@@ -41,27 +41,27 @@ class _TestPageState extends State<TestPage> {
   @override
   void initState() {
     // TODO: implement initState
-    int id = 0;
-    FirebaseFirestore.instance
-        .collection('Database')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("Products")
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        DateTime temp = doc["dateExpires"].toDate();
-        if (DateTime.now().difference(temp).inDays == 0) {
-          id++;
-          print("Created");
-          NotificationApi.showScheduledNotification(
-              id: id,
-              title: doc["name"],
-              body: doc["notes"],
-              payload: doc["id"],
-              scheduledDate: DateTime.now().add(Duration(seconds: 5)));
-        }
-      });
-    });
+    // int id = 0;
+    // FirebaseFirestore.instance
+    //     .collection('Database')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .collection("Products")
+    //     .get()
+    //     .then((QuerySnapshot querySnapshot) {
+    //   querySnapshot.docs.forEach((doc) {
+    //     DateTime temp = doc["dateExpires"].toDate();
+    //     if (DateTime.now().difference(temp).inDays == 0) {
+    //       id++;
+    //       print("Created");
+    //       NotificationApi.showScheduledNotification(
+    //           id: id,
+    //           title: doc["name"],
+    //           body: doc["notes"],
+    //           payload: doc["id"],
+    //           scheduledDate: DateTime.now().add(Duration(seconds: 5)));
+    //     }
+    //   });
+    // });
   }
 
   @override
